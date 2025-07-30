@@ -1,0 +1,1256 @@
+:root {
+    --primary-green: #84cc16;
+    --secondary-teal: #14b8a6;
+    --dark-blue: #0a2540;
+    --text-color: #333;
+    --text-light: #fff;
+    --background-light: #f8f9fa;
+    --shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.7;
+    color: var(--text-color);
+}
+/* --- Utility Class --- */
+.text-primary {
+    color: var(--primary-green);
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+/* --- Navigasi --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+
+    /* --- Perubahan untuk Efek Island --- */
+    width: 95%; /* Lebar tidak lagi 100% */
+    max-width: 1200px; /* Batas lebar maksimum agar tidak terlalu lebar di layar besar */
+    top: 1rem; /* Jarak dari atas halaman */
+    left: 50%; /* Posisi 50% dari kiri */
+    transform: translateX(-50%); /* Trik untuk membuatnya benar-benar di tengah */
+
+    /* --- Perubahan untuk Efek Glassmorphism --- */
+    background-color: rgba(255, 255, 255, 0.2); /* Background putih semi-transparan */
+    -webkit-backdrop-filter: blur(15px); /* Efek blur untuk browser Safari */
+    backdrop-filter: blur(15px); /* Efek blur utama */
+    border-radius: 25px; /* Sudut yang tumpul (rounded corners) */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border tipis untuk mempertegas bentuk kaca */
+    
+    padding: 1rem 2rem; /* Padding di-set ulang untuk awal */
+    transition: all 0.4s ease; /* Transisi untuk SEMUA properti agar animasi lebih menyeluruh */
+}
+
+/* Style saat navbar di-scroll */
+.navbar.scrolled {
+    /* Kembali ke background solid putih saat scroll */
+    background-color: var(--text-light); 
+    
+    /* Efek blur tidak lagi diperlukan karena background solid */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    /* Padding menyusut seperti sebelumnya untuk efek shrink */
+    padding: 0.8rem 2rem;
+    box-shadow: var(--shadow);
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo img {
+    height: 40px; /* Tinggi logo saat di puncak halaman */
+    transition: height 0.4s ease;
+}
+
+.navbar.scrolled .nav-logo img {
+    height: 40px; /* Tinggi logo menyusut saat di-scroll */
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+}
+
+.nav-item {
+    margin-left: 1.5rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    /* Ubah warna link awal agar kontras di atas gambar Hero */
+    color: var(--text-light); 
+    font-weight: 600; /* Sedikit lebih tebal agar mudah dibaca */
+    transition: color 0.3s ease;
+}
+
+/* Warna link saat navbar di-scroll (menjadi solid) */
+.navbar.scrolled .nav-link {
+    color: var(--dark-blue);
+    font-weight: 400; /* Kembali ke ketebalan normal */
+}
+
+.nav-link:hover, .nav-link.active {
+    /* Warna hover & aktif tetap menggunakan warna brand */
+    color: var(--primary-green);
+}
+/* PERBAIKAN: Aturan hover & aktif untuk state scrolled agar lebih spesifik */
+.navbar.scrolled .nav-link:hover,
+.navbar.scrolled .nav-link.active {
+    color: var(--primary-green);
+}
+
+/* --- Navigasi Hamburger --- */
+.hamburger {
+    display: none; /* Sembunyikan di desktop */
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--dark-blue);
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    /* Perubahan 1: Mengubah tinggi menjadi 1 layar penuh */
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-light);
+    
+    /* Perubahan 2 & 3: Background gambar dengan filter gelap */
+    background: linear-gradient(rgba(10, 37, 64, 0.7), rgba(10, 37, 64, 0.7)), url('img/jabat_tangan.jpg') no-repeat center center/cover;
+    
+    /* Perubahan: Padding tidak lagi diperlukan karena sudah di-center oleh flexbox dalam 100vh */
+}
+.hero-content h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; }
+.hero-content p { font-size: 1.2rem; font-weight: 300; max-width: 600px; margin: 0 auto 2rem auto; }
+.cta-button {
+    background-color: var(--primary-green);
+    color: var(--text-light);
+    padding: 12px 25px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 20px;
+    
+    /* REVISI: Menambahkan border transparan untuk transisi yang mulus */
+    border: 2px solid transparent; 
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    /* REVISI: Background menjadi transparan */
+    background-color: transparent; 
+    
+    /* REVISI: Teks berubah warna menjadi hijau */
+    color: var(--primary-green); 
+    
+    /* REVISI: Border muncul dengan warna hijau */
+    border-color: var(--primary-green); 
+    
+    /* Efek mengangkat tetap dipertahankan */
+    transform: translateY(-3px); 
+}
+
+/* --- Section Umum --- */
+.content-section {
+    padding: 6rem 0; /* Padding vertikal sedikit diperbesar */
+}
+.content-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--dark-blue);
+    font-weight: 700;
+}
+.bg-light { background-color: var(--background-light); }
+
+/* --- Tentang Kami --- */
+/* --- Tentang Kami --- */
+.about-content {
+    display: flex;
+    align-items: center; /* Kembali ke 'center' untuk menyejajarkan grafis dan teks secara vertikal */
+    gap: 4rem;
+}
+
+/* Kolom kiri untuk grafis - dirombak total */
+.about-graphic {
+    flex: 1;
+    height: 450px;
+    position: relative; /* Wajib ada untuk layering */
+    border-radius: 40px; /* Sudut tumpul untuk container utama */
+    overflow: hidden; /* Sembunyikan apa pun yang keluar dari container */
+    
+    /* Foto utama sebagai background */
+    background: url('img/grow.jpg') no-repeat center center/cover;
+    box-shadow: var(--shadow);
+     transition: transform 0.4s ease;
+}
+
+/* Lapisan "Blob" hijau transparan */
+.about-graphic::after {
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 70%;
+    
+    /* Warna hijau brand dengan opasitas */
+    background: rgba(132, 204, 22, 0.85); 
+
+    /* Bentuk blob/kapsul */
+    border-radius: 200px 80px 80px 200px;
+
+    /* Posisikan di kanan-tengah */
+    top: 50%;
+    right: -10%; /* Sedikit keluar ke kanan */
+    transform: translateY(-50%);
+    z-index: 1; /* Berada di atas background, di bawah teks */
+    transition: transform 0.4s ease;
+}
+
+/* Teks di dalam grafis */
+.graphic-text {
+    position: absolute;
+    z-index: 2; /* Berada di lapisan paling atas */
+    
+    /* Posisikan di dalam area blob hijau */
+    top: 50%;
+    left: 45%;
+    transform: translateY(-50%);
+
+    /* Styling Teks */
+    color: var(--text-light);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: left;
+}
+
+/* EFEK HOVER BARU UNTUK GRAFIS TENTANG KAMI */
+.about-graphic:hover {
+    transform: scale(1.05); /* Sedikit zoom-in pada container */
+}
+
+.about-graphic:hover::after {
+    /* Sedikit zoom-in juga pada blob, mempertahankan posisi tengahnya */
+    transform: translateY(-50%) scale(1.05); 
+}
+
+/* --- DNA Kami Section --- */
+
+/* REVISI: Aturan baru untuk judul utama seksi */
+#dna h2 {
+    margin-bottom: 4rem; /* Beri jarak ke konten di bawahnya */
+}
+
+.dna-content {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 5rem;
+    align-items: start; /* Dibuat rata atas agar sejajar */
+}
+
+/* Kiri: Diagram */
+.dna-diagram {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1.5rem;
+    position: relative;
+    aspect-ratio: 1 / 1;
+}
+
+.diagram-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 38%; height: 38%;
+    background-color: white;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    color: var(--dark-blue);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 3;
+    padding: 1rem;
+    border: 1px solid #f0f0f0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Tambahkan baris ini */
+}
+.diagram-center i {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    transition: color 0.3s ease; /* Tambahkan baris ini */
+}
+.diagram-center p { font-size: 0.9rem; font-weight: 600; line-height: 1.2; }
+
+.diagram-card {
+    background-color: white;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+    border-radius: 20px;
+    padding: 1.5rem;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.diagram-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); }
+/* EFEK HOVER BARU UNTUK ELEMEN TENGAH */
+.diagram-center:hover {
+    transform: translate(-50%, -50%) scale(1.05); /* Sedikit membesar */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12); /* Bayangan lebih jelas */
+}
+
+.diagram-center:hover i {
+    color: var(--primary-green); /* Ikon berubah warna */
+}
+.diagram-card i, .diagram-card h4 { position: absolute; margin: 0; width: 55%; }
+.diagram-card i { font-size: 2.2rem; color: var(--dark-blue); }
+.diagram-card h4 { font-size: 1rem; font-weight: 600; color: var(--text-color); line-height: 1.4; }
+
+#card-1 i { bottom: 1.5rem; left: 1.5rem; text-align: left;}
+#card-1 h4 { top: 1.5rem; right: 1.5rem; text-align: right; }
+#card-2 i { bottom: 1.5rem; right: 1.5rem; text-align: right; }
+#card-2 h4 { top: 1.5rem; left: 1.5rem; text-align: left; }
+#card-3 i { top: 1.5rem; left: 1.5rem; text-align: left;}
+#card-3 h4 { bottom: 1.5rem; right: 1.5rem; text-align: right; }
+#card-4 i { top: 1.5rem; right: 1.5rem;text-align: right; }
+#card-4 h4 { bottom: 1.5rem; left: 1.5rem; text-align: left; }
+
+.diagram-card .card-number { position: absolute; font-size: 1.1rem; font-weight: 700; color: white; padding: 0.5rem 1rem; }
+#card-1 .card-number { top: 0; left: 0; background-color: var(--secondary-teal); border-radius: 20px 0 20px 0; }
+#card-2 .card-number { top: 0; right: 0; background-color: var(--secondary-teal); border-radius: 0 20px 0 20px; }
+#card-3 .card-number { bottom: 0; left: 0; background-color: var(--primary-green); border-radius: 0 20px 0 20px; }
+#card-4 .card-number { bottom: 0; right: 0; background-color: var(--primary-green); border-radius: 20px 0 20px 0; }
+
+/* Kanan: Pengalaman */
+.dna-experience { text-align: left; }
+/* Dihapus: Aturan untuk .dna-experience h2 karena sudah dipindah */
+.dna-experience h3 { font-weight: 400; color: var(--text-color); margin-bottom: 2rem; font-size: 1.2rem; }
+.director-profile { display: flex; justify-content: flex-start; align-items: center; gap: 1.5rem; margin-bottom: 2rem; background-color: #f8f9fa; padding: 1rem; border-radius: 15px; }
+.director-profile img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--primary-green); }
+.director-profile strong { display: block; font-size: 1.3rem; }
+.director-profile em { font-size: 1rem; }
+.experience-list { list-style: none; padding: 0; }
+.experience-list li { margin-bottom: 1.2rem; padding-left: 2rem; position: relative; font-weight: 600; font-size: 1.1rem; }
+/* --- Penataan Kolom untuk Pengalaman --- */
+.experience-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Membuat 2 kolom dengan lebar sama */
+    gap: 1.5rem; /* Memberi jarak antar kolom */
+}
+
+/* Sedikit penyesuaian pada list agar tidak ada margin bawah yang berlebih di kolom pertama */
+.experience-columns .experience-list {
+    margin: 0;
+}
+.experience-list li::before { content: '•'; position: absolute; left: 0; top: -2px; color: var(--primary-green); font-size: 1.5rem; }
+.experience-list li span { display: block; font-weight: 400; font-size: 0.95rem; color: #555; margin-top: 0.2rem; }
+
+/* --- Penyesuaian Judul Seksi Lain --- */
+/* Tambahkan class .text-center pada h2 di seksi lain agar tetap di tengah */
+.text-center {
+    text-align: center;
+}
+
+/* Kolom kanan untuk teks */
+.about-text {
+    flex: 1;
+    text-align: right;
+    /* Padding atas & bawah dihapus karena layout tidak lagi sticky */
+}
+
+/* Mengatur ulang margin untuk judul yang ada di dalam blok teks */
+.about-text h2 {
+    margin-bottom: 0.5rem;
+}
+
+/* --- Nilai Kami (Our Values) Section --- */
+#values h2 {
+    margin-bottom: 2rem;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.value-card {
+    position: relative;
+    height: 400px;
+    box-shadow: var(--shadow);
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.4s ease, border-radius 0.4s ease;
+
+    /* REVISI 2: Bentuk persegi dengan sudut kiri atas & kanan bawah tumpul */
+    border-radius: 40px 0 40px 0;
+    overflow: hidden; /* Pastikan gambar mengikuti bentuk sudut */
+}
+
+.value-card:hover {
+    transform: scale(1.05);
+    border-radius: 0 40px 0 40px; /* Efek hover: sudut tumpul berpindah */
+}
+
+/* Mengatur gambar background unik untuk setiap kartu */
+#value-integrity {
+    background-image: url('img/1x/Integrity.jpg');
+}
+#value-commitment {
+    background-image: url('img/1x/commitment.jpg');
+}
+#value-innovative {
+    background-image: url('img/1x/inovative.jpg');
+}
+
+.value-overlay-circle {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    
+    /* REVISI 1: Mengubah bentuk dari lingkaran ke kapsul */
+    width: 180px;  /* Lebar lebih besar dari tinggi */
+    height: 90px;
+    border-radius: 50px; /* Radius besar untuk menciptakan bentuk kapsul */
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 1rem; /* Padding horizontal untuk teks */
+}
+
+/* Mengatur warna unik untuk setiap lingkaran */
+#value-integrity .value-overlay-circle { background-color: var(--primary-green); }
+#value-commitment .value-overlay-circle {
+    background-color: var(--secondary-teal); /* Warna asli: #14b8a6 */
+}
+
+#value-innovative .value-overlay-circle {
+    background-color: #0d9488; /* Warna teal yang lebih gelap */
+}
+
+.value-overlay-circle h3 {
+    color: var(--text-light);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+
+/* --- Layanan (Kompetensi Kami) Section --- */
+.section-header {
+    text-align: left;
+    margin-bottom: 3rem;
+}
+.section-header h2 {
+    margin-bottom: 0.5rem;
+}
+.section-header p {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.competency-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.competency-card {
+    position: relative;
+    padding-left: 60px; /* Memberi ruang untuk label lingkaran */
+}
+
+.competency-label {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: var(--label-color); /* Menggunakan variabel dari inline style */
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    
+}
+
+.competency-label h3 {
+    color: var(--text-light);
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.competency-image {
+    width: 100%;
+    height: 300px;
+
+    /* REVISI: Kembali ke bentuk persegi panjang dengan sudut tumpul */
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 5px solid white;
+    transition: transform 0.4s ease;
+}
+
+.competency-image:hover {
+    transform: scale(1.05);
+}
+
+.competency-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Memastikan gambar mengisi lingkaran tanpa distorsi */
+}
+
+
+/* --- Event Organizer Detail Section --- */
+
+.event-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4rem; /* Jarak antara kolom teks dan grafis */
+    align-items: center; /* Membuat kedua kolom sejajar di tengah secara vertikal */
+}
+
+.event-text h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.event-text p:nth-of-type(1) { /* Paragraf subjudul */
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+.event-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+/* Grafis baru yang lebih elegan dan konsisten */
+.event-graphic {
+    height: 600px;
+    border-radius: 40px 0 40px 0; /* Bentuk yang konsisten dengan seksi "Our Values" */
+    box-shadow: var(--shadow);
+    
+    /* Gambar baru yang lebih relevan */
+    background: url('img/1x/eo.jpg') no-repeat center center/cover;
+    
+    transition: transform 0.4s ease;
+}
+
+.event-graphic:hover {
+    transform: scale(1.05); /* Efek zoom halus saat disentuh mouse */
+}
+
+/* Menghapus aturan .event-graphic::after */
+
+/* Kolom Kanan: Grafis */
+.event-graphic {
+    position: relative;
+    overflow: hidden;
+    
+    /* Gambar placeholder sebagai background */
+    background: url('img/1x/eo.jpg') no-repeat center center/cover;
+    
+    /* Bentuk grafis custom yang selaras */
+    clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Elemen dekoratif untuk mempermanis */
+.event-graphic::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: var(--primary-green);
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+
+/* --- MICE Organizer Detail Section --- */
+.mice-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4rem;
+    align-items: center;
+}
+
+.mice-graphic {
+    height: 650px;
+    /* Bentuk sudut yang merupakan kebalikan dari seksi sebelumnya untuk harmoni visual */
+    border-radius: 0 40px 0 40px; 
+    box-shadow: var(--shadow);
+    background: url('img/Event Galeri/TNA 2023.jpg') no-repeat center center/cover;
+    transition: transform 0.4s ease;
+}
+
+.mice-graphic:hover {
+    transform: scale(1.05);
+}
+
+.mice-text h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.mice-text > p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+}
+
+.mice-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap; /* Memungkinkan list pindah baris jika tidak cukup tempat */
+    gap: 0.8rem; /* Jarak antar item list */
+}
+
+.mice-list li {
+    background: var(--secondary-teal); /* Menggunakan warna teal agar berbeda */
+    color: var(--text-light);
+    font-weight: 600;
+    padding: 0.8rem 1.5rem; /* Padding sedikit disesuaikan */
+    margin-bottom: 0; /* Dihapus karena sudah diatur oleh gap */
+    border-radius: 50px;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+}
+
+.mice-list li:hover {
+    background-color: #0d9488; /* Warna teal lebih gelap saat hover */
+}
+
+/* --- General Supplier Detail Section (REVISI) --- */
+.supplier-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4rem;
+    align-items: center;
+}
+
+
+.supplier-text h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.supplier-text > p:nth-of-type(1) { /* Subjudul */
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.supplier-text > p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+}
+
+
+/* --- OPSI 1: Lapisan Bentuk Abstrak --- */
+.supplier-graphic {
+    position: relative; /* Diperlukan untuk menumpuk elemen */
+    height: 700px; /* Tinggi disamakan dengan seksi lain */
+    border-radius: 30px; /* Sudut tumpul untuk container utama */
+    box-shadow: var(--shadow);
+    background: url('img/1x/supplies.jpg') no-repeat center center/cover;
+    overflow: hidden; /* Penting agar lapisan tidak keluar dari container */
+    transition: transform 0.4s ease;
+}
+
+.supplier-graphic:hover {
+    transform: scale(1.05);
+}
+
+/* Lapisan bentuk berwarna di atas gambar */
+.supplier-graphic::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -80px;
+    width: 40%;
+    height: 30%;
+    background-color: rgba(132, 204, 22, 0.85); /* Warna --primary-green dengan transparansi */
+    border-radius: 150px 0 0 100px; /* Bentuk abstrak custom */
+    transition: all 0.4s ease;
+}
+
+.supplier-graphic:hover::after {
+    transform: translate(-20px, -20px) scale(1.1); /* Efek interaktif pada lapisan */
+}
+
+/* Mempercantik tampilan list */
+.supplier-lists {
+    display: flex;
+    gap: 2rem;
+}
+
+.supplier-lists ul {
+    list-style: none;
+    padding: 0;
+    flex: 1; /* Memastikan kedua kolom fleksibel */
+}
+
+.supplier-lists li {
+    position: relative;
+    padding-left: 25px; /* Ruang untuk ikon checklist */
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.4;
+}
+
+.supplier-lists li::before {
+    content: '✓'; /* Ikon checklist */
+    position: absolute;
+    left: 0;
+    top: 5px;
+    color: var(--primary-green);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.supplier-lists li strong {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--dark-blue);
+    margin-bottom: 0.2rem;
+}
+
+
+/* --- Portofolio --- */
+/* Kontainer untuk folder-folder */
+.portfolio-folders {
+    display: grid;
+    /* Grid yang responsif, akan mencoba memuat item selebar 300px */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Kartu untuk setiap folder */
+.folder-card {
+    position: relative;
+    aspect-ratio: 4 / 3; /* Menjaga proporsi kartu */
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.folder-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.folder-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.folder-card:hover img {
+    transform: scale(1.1);
+}
+
+/* Lapisan gelap di atas gambar folder */
+.folder-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(10, 37, 64, 0.9), rgba(10, 37, 64, 0.1));
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+}
+.folder-overlay h4 {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Tampilan Galeri saat folder dibuka */
+.back-to-folders-btn {
+    background-color: var(--dark-blue);
+    color: var(--text-light);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    transition: background-color 0.3s ease;
+}
+.back-to-folders-btn:hover {
+    background-color: #000;
+}
+.back-to-folders-btn i {
+    margin-right: 8px;
+}
+.gallery-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--dark-blue);
+    text-align: center;
+}
+
+/* Grid untuk gambar */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+.portfolio-item {
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    aspect-ratio: 1 / 1;
+    position: relative;
+}
+.portfolio-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.portfolio-item:hover img {
+    transform: scale(1.1);
+}
+
+
+/* Gaya untuk overlay teks caption */
+.portfolio-item-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(10, 37, 64, 0.95), transparent);
+    color: var(--text-light);
+    padding: 2.5rem 1rem 1rem 1rem;
+    
+    /* Sembunyikan overlay di luar layar (di bawah) */
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.portfolio-item-overlay p {
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    text-align: center;
+}
+
+/* Efek saat gambar di-hover di desktop */
+.portfolio-item:hover .portfolio-item-overlay {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* --- Penyesuaian untuk Mobile (Responsif) --- */
+@media (max-width: 992px) {
+    /* Di perangkat sentuh (tablet & mobile), kita tidak bisa mengandalkan hover.
+       Jadi, kita buat overlay selalu terlihat namun lebih simpel. */
+    .portfolio-item-overlay {
+        transform: translateY(0);
+        opacity: 1;
+        padding: 1.5rem 0.8rem 0.8rem 0.8rem;
+        background: linear-gradient(to top, rgba(10, 37, 64, 0.85), transparent);
+    }
+    .portfolio-item-overlay p {
+        font-size: 0.8rem;
+    }
+}
+
+/* --- Klien --- */
+.clients-grid {
+    display: grid;
+    /* REVISI: Menggunakan grid responsif */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2.5rem; /* Jarak antar logo disesuaikan */
+    align-items: center;
+}
+
+.clients-grid img {
+    height: 100px; /* Ukuran logo diperbesar */
+    width: 100%; /* Lebar mengisi grid cell */
+    max-width: 180px;
+    object-fit: contain; /* Memastikan logo tidak gepeng/terpotong */
+    margin: 0 auto; /* Menengahkan logo di dalam grid cell */
+    transition: all 0.3s ease;
+    
+    /* REVISI: Efek grayscale hanya aktif di layar besar (desktop) */
+    filter: grayscale(100%);
+    opacity: 0.7;
+}
+
+/* Efek hover hanya aktif di layar besar (desktop) */
+@media (hover: hover) {
+    .clients-grid img:hover {
+        filter: grayscale(0%);
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+/* Di layar mobile, buat logo langsung berwarna */
+@media (max-width: 768px) {
+    .clients-grid img {
+        filter: grayscale(0%);
+        opacity: 1;
+        height: 60px; /* Sedikit lebih kecil di mobile */
+    }
+    .clients-grid {
+        gap: 2rem; /* Jarak lebih rapat di mobile */
+    }
+}
+
+/* --- Kontak --- */
+#contact h2 {
+    margin-bottom: 4rem; /* Jarak ekstra untuk judul */
+}
+
+.contact-new-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* Kolom kiri lebih kecil */
+    gap: 4rem;
+    background-color: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+/* Kiri: Tombol Aksi */
+.contact-action {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--dark-blue);
+    border-radius: 15px;
+    color: var(--text-light);
+}
+.contact-action h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.contact-action p {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.contact-cta-button {
+    background-color: var(--primary-green);
+    color: var(--dark-blue);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+.contact-cta-button:hover {
+    background-color: var(--text-light);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.contact-cta-button i {
+    margin-right: 10px;
+}
+
+/* Kanan: Info Detail */
+.contact-details {
+    padding-left: 2rem;
+    border-left: 3px solid var(--background-light);
+}
+.contact-details h4 {
+    font-size: 1.5rem;
+    color: var(--dark-blue);
+    margin-bottom: 1.5rem;
+}
+.contact-info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.2rem;
+    color: #555;
+}
+.contact-info-item i {
+    color: var(--primary-green);
+    font-size: 1.2rem;
+    margin-right: 1.5rem;
+    margin-top: 5px;
+    width: 20px; /* Jaga lebar ikon agar teks sejajar */
+}
+.contact-info-item span {
+    flex: 1;
+}
+.contact-divider {
+    margin: 2rem 0;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+/* Penyesuaian Responsif untuk Kontak */
+@media(max-width: 992px) {
+    .contact-new-layout {
+        grid-template-columns: 1fr;
+    }
+    .contact-details {
+        padding-left: 0;
+        border-left: none;
+        margin-top: 3rem;
+        padding-top: 3rem;
+        border-top: 3px solid var(--background-light);
+    }
+}
+
+/* --- Footer --- */
+.footer { background-color: var(--dark-blue); color: var(--text-light); padding: 2rem 0; text-align: center; }
+
+/* --- Responsive --- */
+@media(max-width: 992px) {
+    .values-grid, .services-grid { grid-template-columns: 1fr; }
+    .value-card, .service-card { margin-bottom: 2rem; }
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    .contact-container { grid-template-columns: 1fr; }
+    /* POTONG BLOK KODE INI DARI @media (max-width: 768px) */
+
+    /* --- Penyesuaian Responsif untuk Diagram DNA --- */
+    .dna-diagram {
+        gap: 0.8rem;
+    }
+    .diagram-center i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    .diagram-center p {
+        font-size: 0.7rem;
+    }
+    .diagram-card {
+        padding: 1rem;
+    }
+    .diagram-card i, .diagram-card h4 {
+        position: absolute;
+        margin: 0;
+        width: 60%;
+    }
+    .diagram-card i {
+        font-size: 1.8rem;
+    }
+    .diagram-card h4 {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+    #card-1 i { bottom: 1rem; left: 1rem; }
+    #card-1 h4 { top: 1rem; right: 1rem; }
+    #card-2 i { bottom: 1rem; right: 1rem; }
+    #card-2 h4 { top: 1rem; left: 1rem; }
+    #card-3 i { top: 1rem; left: 1rem; }
+    #card-3 h4 { bottom: 1rem; right: 1rem; }
+    #card-4 i { top: 1rem; right: 1rem; }
+    #card-4 h4 { bottom: 1rem; left: 1rem; }
+    .diagram-card .card-number {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+@media(max-width: 768px) {
+    /* --- REVISI FINAL NAVBAR RESPONSIVE --- */
+
+    .hamburger {
+        display: block;
+        z-index: 101;
+    }
+    .hamburger .bar {
+        background-color: var(--dark-blue);
+    }
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    
+    .nav-menu {
+        position: fixed;
+        transform: translateX(-100%); 
+        visibility: hidden;
+        left: 0;
+        top: 0;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        border-radius: 20px;
+        
+        /* REVISI: Pastikan ini adalah flex container */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; /* Menengahkan item secara horizontal */
+        
+        background-color: var(--text-light);
+        transition: transform 0.4s ease-in-out, visibility 0.4s ease-in-out;
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-menu.active {
+        transform: translateX(0);
+        visibility: visible;
+    }
+
+    .nav-item {
+        /* REVISI: Margin disesuaikan agar jarak lebih konsisten */
+        margin: 1rem 0;
+        width: 80%; /* Beri lebar agar item tidak terlalu mepet */
+        text-align: center;
+    }
+    
+    .nav-link {
+        /* REVISI: Buat area link lebih besar dan rapi */
+        display: block; /* Membuat link mengisi ruang .nav-item */
+        width: 100%;
+        padding: 1rem 0; /* Padding vertikal untuk area sentuh yang lebih baik */
+        border-radius: 50px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .navbar .nav-link,
+    .navbar.scrolled .nav-link {
+        color: var(--dark-blue);
+    }
+
+    .navbar .nav-link:hover,
+    .navbar.scrolled .nav-link:hover,
+    .navbar .nav-link.active,
+    .navbar.scrolled .nav-link.active {
+        /* REVISI: Efek aktif/hover di mobile */
+        background-color: var(--background-light);
+        color: var(--primary-green);
+    }
+    
+    /* POTONG BLOK KODE INI DARI @media (max-width: 768px) */
+
+    /* --- Penyesuaian Responsif untuk Diagram DNA --- */
+    .dna-diagram {
+        gap: 0.8rem;
+    }
+    .diagram-center i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    .diagram-center p {
+        font-size: 0.7rem;
+    }
+    .diagram-card {
+        padding: 1rem;
+    }
+    .diagram-card i, .diagram-card h4 {
+        position: absolute;
+        margin: 0;
+        width: 60%;
+    }
+    .diagram-card i {
+        font-size: 1.8rem;
+    }
+    .diagram-card h4 {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+    #card-1 i { bottom: 1rem; left: 1rem; }
+    #card-1 h4 { top: 1rem; right: 1rem; }
+    #card-2 i { bottom: 1rem; right: 1rem; }
+    #card-2 h4 { top: 1rem; left: 1rem; }
+    #card-3 i { top: 1rem; left: 1rem; }
+    #card-3 h4 { bottom: 1rem; right: 1rem; }
+    #card-4 i { top: 1rem; right: 1rem; }
+    #card-4 h4 { bottom: 1rem; left: 1rem; }
+    .diagram-card .card-number {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    
+    .hero-content h1 { font-size: 2.2rem; }
+    .about-content { flex-direction: column; text-align: center; }
+    .about-text { text-align: center; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .portfolio-item-overlay { transform: translateY(0); opacity: 1; padding: 1rem 0.8rem 0.8rem 0.8rem; background: linear-gradient(to top, rgba(10, 37, 64, 0.8), transparent); }
+    .portfolio-item-overlay p { font-size: 0.8rem; }
+    .dna-content { grid-template-columns: 1fr; }
+    .competency-grid { grid-template-columns: 1fr; }
+    .competency-card { padding-left: 0; display:flex; flex-direction: column; align-items: center; }
+    .competency-label { position: static; transform: none; margin-bottom: -60px; }
+    .full-page-section, .event-content, #mice-organizer-detail, .supplier-content { grid-template-columns: 1fr; height: auto; }
+    /* Menyembunyikan grafis detail layanan di mobile */
+    .event-graphic,
+    .mice-graphic,
+    .supplier-graphic {
+        display: none;
+    }
+    /* --- Penyesuaian Responsif untuk MICE Organizer --- */
+    .mice-content {
+        grid-template-columns: 1fr; /* Ubah grid menjadi 1 kolom */
+    }
+
+    .mice-text {
+        text-align: left; /* Teks dibuat rata tengah di mobile */
+    }
+
+    .mice-list {
+        justify-content: left; /* Posisikan item list di tengah */
+    }
+    .event-text, .mice-text, .supplier-text { padding: 2rem; }
+}
