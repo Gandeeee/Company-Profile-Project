@@ -7,16 +7,70 @@
     --background-light: #f8f9fa;
     --shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
+@font-face {
+    font-family: 'Millunium';
+    src: url('fonts/millenium_bold-webfont.woff2') format('woff2'),
+         url('fonts/millenium_bold-webfont.woff') format('woff');
+    font-weight: 700; /* 700 sama dengan bold */
+    font-style: normal;
+}
 
 * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Millunium', sans-serif;
     line-height: 1.7;
     color: var(--text-color);
 }
+/* --- Aksen Grafis Latar Belakang --- */
+body::before {
+    content: '';
+    position: fixed; /* Tetap di tempat saat di-scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Posisikan di paling belakang */
+
+    /* Membuat 3 gelombang hijau transparan dengan SVG */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%2384cc16' fill-opacity='0.1' d='M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,218.7C960,235,1056,213,1152,192C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: cover;
+    opacity: 100%; /* Buat lebih transparan lagi */
+}
+
 /* --- Utility Class --- */
 .text-primary {
+    color: var(--primary-green);
+}
+
+/* --- Styling untuk List di Halaman Detail Layanan --- */
+.list-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #555;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.detail-service-list {
+    list-style: none;
+    padding: 0;
+}
+
+.detail-service-list li {
+    position: relative;
+    padding-left: 30px; /* Ruang untuk ikon */
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.detail-service-list li i {
+    position: absolute;
+    left: 0;
+    top: 5px;
     color: var(--primary-green);
 }
 
@@ -65,15 +119,32 @@ body {
 .nav-logo {
     display: flex;
     align-items: center;
+    position: relative; /* Diperlukan untuk menumpuk logo */
+    height: 35px; /* Beri tinggi tetap pada container logo */
 }
 
 .nav-logo img {
-    height: 40px; /* Tinggi logo saat di puncak halaman */
-    transition: height 0.4s ease;
+    height: 100%; /* Tinggi logo mengikuti container */
+    position: absolute; /* Tumpuk kedua logo di posisi yang sama */
+    top: 0;
+    left: 0;
+    transition: opacity 0.4s ease; /* Transisi untuk efek fade */
 }
 
-.navbar.scrolled .nav-logo img {
-    height: 40px; /* Tinggi logo menyusut saat di-scroll */
+/* Kondisi Awal (di Hero Section) */
+.nav-logo .logo-white {
+    opacity: 1; /* Tampilkan logo putih */
+}
+.nav-logo .logo-black {
+    opacity: 0; /* Sembunyikan logo hitam */
+}
+
+/* Kondisi Saat di-scroll (.scrolled) */
+.navbar.scrolled .nav-logo .logo-white {
+    opacity: 0; /* Sembunyikan logo putih */
+}
+.navbar.scrolled .nav-logo .logo-black {
+    opacity: 1; /* Tampilkan logo hitam */
 }
 
 .nav-menu {
@@ -141,7 +212,7 @@ body {
     /* Perubahan: Padding tidak lagi diperlukan karena sudah di-center oleh flexbox dalam 100vh */
 }
 .hero-content h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; }
-.hero-content p { font-size: 1.2rem; font-weight: 300; max-width: 600px; margin: 0 auto 2rem auto; }
+.hero-content p { font-size: 1.1rem; font-weight: 300; max-width: 600px; margin: 0 auto 2rem auto; }
 .cta-button {
     background-color: var(--primary-green);
     color: var(--text-light);
@@ -176,15 +247,14 @@ body {
     padding: 6rem 0; /* Padding vertikal sedikit diperbesar */
 }
 .content-section h2 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 3rem;
     color: var(--dark-blue);
     font-weight: 700;
 }
 .bg-light { background-color: var(--background-light); }
 
-/* --- Tentang Kami --- */
-/* --- Tentang Kami --- */
+/* --- ABOUT US --- */
 .about-content {
     display: flex;
     align-items: center; /* Kembali ke 'center' untuk menyejajarkan grafis dan teks secara vertikal */
@@ -194,7 +264,7 @@ body {
 /* Kolom kiri untuk grafis - dirombak total */
 .about-graphic {
     flex: 1;
-    height: 450px;
+    height: 525px;
     position: relative; /* Wajib ada untuk layering */
     border-radius: 40px; /* Sudut tumpul untuk container utama */
     overflow: hidden; /* Sembunyikan apa pun yang keluar dari container */
@@ -348,7 +418,7 @@ body {
 /* Dihapus: Aturan untuk .dna-experience h2 karena sudah dipindah */
 .dna-experience h3 { font-weight: 400; color: var(--text-color); margin-bottom: 2rem; font-size: 1.2rem; }
 .director-profile { display: flex; justify-content: flex-start; align-items: center; gap: 1.5rem; margin-bottom: 2rem; background-color: #f8f9fa; padding: 1rem; border-radius: 15px; }
-.director-profile img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--primary-green); }
+.director-profile img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--primary-green); object-fit: cover; }
 .director-profile strong { display: block; font-size: 1.3rem; }
 .director-profile em { font-size: 1rem; }
 .experience-list { list-style: none; padding: 0; }
@@ -376,7 +446,8 @@ body {
 /* Kolom kanan untuk teks */
 .about-text {
     flex: 1;
-    text-align: right;
+    text-align: justify;
+    font-size: 1.1rem;
     /* Padding atas & bawah dihapus karena layout tidak lagi sticky */
 }
 
@@ -480,6 +551,7 @@ body {
 }
 
 .competency-card {
+    cursor: pointer;
     position: relative;
     padding-left: 60px; /* Memberi ruang untuk label lingkaran */
 }
@@ -495,7 +567,6 @@ body {
     height: 120px;
     border-radius: 50%;
     background-color: var(--label-color); /* Menggunakan variabel dari inline style */
-    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -506,7 +577,7 @@ body {
 
 .competency-label h3 {
     color: var(--text-light);
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: 700;
     line-height: 1.2;
 }
@@ -534,7 +605,7 @@ body {
 }
 
 
-/* --- Event Organizer Detail Section --- */
+/* --- MICE Organizer Detail Section --- */
 
 .event-content {
     display: grid;
@@ -549,45 +620,28 @@ body {
     margin-bottom: 1rem;
 }
 
-.event-text p:nth-of-type(1) { /* Paragraf subjudul */
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 2rem;
-}
-
 .event-text p {
+    text-align: justify;
     font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 1.5rem;
 }
 
 /* Grafis baru yang lebih elegan dan konsisten */
-.event-graphic {
-    height: 600px;
-    border-radius: 40px 0 40px 0; /* Bentuk yang konsisten dengan seksi "Our Values" */
-    box-shadow: var(--shadow);
-    
-    /* Gambar baru yang lebih relevan */
-    background: url('img/1x/eo.jpg') no-repeat center center/cover;
-    
-    transition: transform 0.4s ease;
-}
-
 .event-graphic:hover {
     transform: scale(1.05); /* Efek zoom halus saat disentuh mouse */
 }
-
-/* Menghapus aturan .event-graphic::after */
 
 /* Kolom Kanan: Grafis */
 .event-graphic {
     position: relative;
     overflow: hidden;
-    
     /* Gambar placeholder sebagai background */
-    background: url('img/1x/eo.jpg') no-repeat center center/cover;
-    
+    background: url('img/MICE/PERTAMINA EP/Workshop SSOP ABG 2022/Copy of IMG_20220722_110558.jpg') no-repeat center center/cover;
+    height: 600px;
+    border-radius: 40px 0 40px 0; /* Bentuk yang konsisten dengan seksi "Our Values" */
+    box-shadow: var(--shadow);
+    transition: transform 0.4s ease;
     /* Bentuk grafis custom yang selaras */
     clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
 }
@@ -606,7 +660,7 @@ body {
 }
 
 
-/* --- MICE Organizer Detail Section --- */
+/* --- TRAINING Organizer Detail Section --- */
 .mice-content {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -615,11 +669,11 @@ body {
 }
 
 .mice-graphic {
-    height: 650px;
+    height: 850px;
     /* Bentuk sudut yang merupakan kebalikan dari seksi sebelumnya untuk harmoni visual */
     border-radius: 0 40px 0 40px; 
     box-shadow: var(--shadow);
-    background: url('img/Event Galeri/TNA 2023.jpg') no-repeat center center/cover;
+    background: url('img/Training\ Details.jpg') no-repeat center center/cover;
     transition: transform 0.4s ease;
 }
 
@@ -634,6 +688,7 @@ body {
 }
 
 .mice-text > p {
+    text-align: justify;
     font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 2.5rem;
@@ -654,7 +709,7 @@ body {
     padding: 0.8rem 1.5rem; /* Padding sedikit disesuaikan */
     margin-bottom: 0; /* Dihapus karena sudah diatur oleh gap */
     border-radius: 50px;
-    width: fit-content;
+    width: fit-content; /* Lebar otomatis sesuai konten */
     transition: background-color 0.3s ease;
 }
 
@@ -677,27 +732,20 @@ body {
     margin-bottom: 1rem;
 }
 
-.supplier-text > p:nth-of-type(1) { /* Subjudul */
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 1.5rem;
-}
 
 .supplier-text > p {
+    text-align: justify;
     font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 2.5rem;
 }
 
-
-/* --- OPSI 1: Lapisan Bentuk Abstrak --- */
 .supplier-graphic {
     position: relative; /* Diperlukan untuk menumpuk elemen */
     height: 700px; /* Tinggi disamakan dengan seksi lain */
     border-radius: 30px; /* Sudut tumpul untuk container utama */
     box-shadow: var(--shadow);
-    background: url('img/1x/supplies.jpg') no-repeat center center/cover;
+    background: url('img/PENGADAAN_fix/Pengadaan_Lainnya/Penutupan\ Bulan\ K3.jpg') no-repeat center center/cover;
     overflow: hidden; /* Penting agar lapisan tidak keluar dari container */
     transition: transform 0.4s ease;
 }
@@ -760,154 +808,108 @@ body {
     color: var(--dark-blue);
     margin-bottom: 0.2rem;
 }
+/* --- Portofolio (REVISI TOTAL DENGAN NESTED FOLDER) --- */
 
-
-/* --- Portofolio --- */
-/* Kontainer untuk folder-folder */
-.portfolio-folders {
-    display: grid;
-    /* Grid yang responsif, akan mencoba memuat item selebar 300px */
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+/* Navigasi Breadcrumb */
+.portfolio-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    font-size: 1.1rem;
 }
 
-/* Kartu untuk setiap folder */
-.folder-card {
+.breadcrumb-link {
+    color: var(--dark-blue);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.breadcrumb-link:hover {
+    color: var(--primary-green);
+}
+
+.breadcrumb-separator {
+    margin: 0 0.75rem;
+    color: #999;
+}
+
+.breadcrumb-current {
+    color: #777;
+    font-weight: 400;
+}
+
+/* Grid Tampilan Universal */
+.portfolio-grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem
+}
+
+/* Kartu Universal untuk Kategori & Album */
+.gallery-item-card {
     position: relative;
-    aspect-ratio: 4 / 3; /* Menjaga proporsi kartu */
+    aspect-ratio: 4 / 3;
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
     box-shadow: var(--shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.folder-card:hover {
+.gallery-item-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
-
-.folder-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.gallery-item-card img {
+    width: 100%; height: 100%; object-fit: cover;
     transition: transform 0.4s ease;
 }
-.folder-card:hover img {
+.gallery-item-card:hover img {
     transform: scale(1.1);
 }
 
-/* Lapisan gelap di atas gambar folder */
-.folder-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.gallery-item-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(to top, rgba(10, 37, 64, 0.9), rgba(10, 37, 64, 0.1));
-    display: flex;
-    align-items: flex-end;
-    padding: 1.5rem;
+    display: flex; align-items: flex-end; padding: 1.5rem;
 }
-.folder-overlay h4 {
-    color: var(--text-light);
-    font-size: 1.5rem;
-    font-weight: 700;
+.gallery-item-overlay h4 {
+    color: var(--text-light); font-size: 1.5rem; font-weight: 700;
 }
 
-/* Tampilan Galeri saat folder dibuka */
-.back-to-folders-btn {
-    background-color: var(--dark-blue);
-    color: var(--text-light);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 50px;
+/* Item Gambar (Mirip seperti portfolio-item sebelumnya) */
+.portfolio-image-item {
+    width: auto;
+    position: relative; overflow: hidden; border-radius: 20px;
+    box-shadow: var(--shadow); 
+    aspect-ratio: 1 / 1; 
     cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    margin-bottom: 2rem;
-    transition: background-color 0.3s ease;
 }
-.back-to-folders-btn:hover {
-    background-color: #000;
-}
-.back-to-folders-btn i {
-    margin-right: 8px;
-}
-.gallery-title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: var(--dark-blue);
-    text-align: center;
-}
-
-/* Grid untuk gambar */
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-.portfolio-item {
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    aspect-ratio: 1 / 1;
-    position: relative;
-}
-.portfolio-item img {
-    width: 100%;
-    height: 100%;
-    display: block;
+.portfolio-image-item img {
+    width: 100%; 
+    height: 100%; 
+    display: block; 
     object-fit: cover;
     transition: transform 0.4s ease;
-}
-.portfolio-item:hover img {
-    transform: scale(1.1);
-}
 
+}
+.portfolio-image-item:hover img { transform: scale(1.1); }
 
-/* Gaya untuk overlay teks caption */
-.portfolio-item-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+.portfolio-image-overlay {
+    position: absolute; bottom: 0; left: 0; width: 100%;
     background: linear-gradient(to top, rgba(10, 37, 64, 0.95), transparent);
-    color: var(--text-light);
-    padding: 2.5rem 1rem 1rem 1rem;
-    
-    /* Sembunyikan overlay di luar layar (di bawah) */
-    transform: translateY(100%);
-    opacity: 0;
+    color: var(--text-light); padding: 2.5rem 1rem 1rem 1rem;
+    transform: translateY(100%); opacity: 0;
     transition: transform 0.4s ease, opacity 0.4s ease;
+    pointer-events: none;
 }
+.portfolio-image-item:hover .portfolio-image-overlay { transform: translateY(0); opacity: 1; }
+.portfolio-image-overlay p { font-weight: 600; font-size: 0.9rem; line-height: 1.3; text-align: center; }
 
-.portfolio-item-overlay p {
-    font-weight: 600;
-    font-size: 0.9rem;
-    line-height: 1.3;
-    text-align: center;
-}
 
-/* Efek saat gambar di-hover di desktop */
-.portfolio-item:hover .portfolio-item-overlay {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* --- Penyesuaian untuk Mobile (Responsif) --- */
-@media (max-width: 992px) {
-    /* Di perangkat sentuh (tablet & mobile), kita tidak bisa mengandalkan hover.
-       Jadi, kita buat overlay selalu terlihat namun lebih simpel. */
-    .portfolio-item-overlay {
-        transform: translateY(0);
-        opacity: 1;
-        padding: 1.5rem 0.8rem 0.8rem 0.8rem;
-        background: linear-gradient(to top, rgba(10, 37, 64, 0.85), transparent);
-    }
-    .portfolio-item-overlay p {
-        font-size: 0.8rem;
-    }
-}
 
 /* --- Klien --- */
 .clients-grid {
@@ -940,17 +942,103 @@ body {
     }
 }
 
-/* Di layar mobile, buat logo langsung berwarna */
-@media (max-width: 768px) {
-    .clients-grid img {
-        filter: grayscale(0%);
-        opacity: 1;
-        height: 60px; /* Sedikit lebih kecil di mobile */
-    }
-    .clients-grid {
-        gap: 2rem; /* Jarak lebih rapat di mobile */
-    }
+/* --- KAP Career Section --- */
+.section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 500px;
+    margin: -2rem auto 3rem auto;
 }
+
+.career-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.job-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.job-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.job-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.job-icon {
+    font-size: 2rem;
+    color: var(--primary-green);
+}
+
+.job-title h3 {
+    font-size: 1.3rem;
+    color: var(--dark-blue);
+    margin-bottom: 0.2rem;
+}
+
+.job-title span {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.job-description {
+    flex-grow: 1; /* Mendorong footer ke bawah */
+    color: #555;
+    line-height: 1.6;
+}
+
+.job-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 1.5rem;
+}
+
+.job-type {
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 5px 12px;
+    border-radius: 50px;
+}
+.job-type.full-time {
+    color: #0d9488;
+    background-color: #ccfbf1;
+}
+.job-type.freelance {
+    color: #c2410c;
+    background-color: #fff7ed;
+}
+
+.job-apply-btn {
+    background-color: var(--dark-blue);
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+.job-apply-btn:hover {
+    background-color: #000;
+}
+/* --- KAP Career Section --- */
+
 
 /* --- Kontak --- */
 #contact h2 {
@@ -1040,30 +1128,205 @@ body {
     border-top: 1px solid #eee;
 }
 
-/* Penyesuaian Responsif untuk Kontak */
-@media(max-width: 992px) {
-    .contact-new-layout {
-        grid-template-columns: 1fr;
-    }
-    .contact-details {
-        padding-left: 0;
-        border-left: none;
-        margin-top: 3rem;
-        padding-top: 3rem;
-        border-top: 3px solid var(--background-light);
-    }
+/* --- TAMBAHAN UNTUK TOMBOL WHATSAPP & SOSIAL MEDIA --- */
+
+.whatsapp-btn {
+    display: inline-block;
+    background-color: #25D366;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
 }
+.whatsapp-btn:hover {
+    transform: scale(1.05);
+}
+/* Perbaikan posisi ikon WhatsApp */
+.contact-info-item .fa-whatsapp {
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+/* Kunci Perbaikan: Tata ulang grid dan item sosial media */
+.social-media-grid {
+    display: flex;
+    flex-direction: column; /* Selalu 1 kolom vertikal */
+    gap: 1.2rem; /* Jarak antar baris */
+    margin-top: 1rem;
+}
+
+.social-icon {
+    display: flex; /* Gunakan flex untuk menyejajarkan ikon dan teks */
+    align-items: center; /* Kunci untuk alignment vertikal */
+    gap: 1rem; /* Jarak antara ikon dan username */
+    
+    color: var(--dark-blue);
+    text-decoration: none;
+    width: fit-content; /* Lebar menyesuaikan isi agar efek hover pas */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icon:hover {
+    color: var(--primary-green);
+    transform: translateX(5px); /* Efek geser halus */
+}
+
+.social-icon i {
+    font-size: 1.8rem;
+    width: 30px; /* Beri lebar tetap agar semua teks lurus */
+    text-align: center; /* Pastikan ikon di tengah areanya */
+}
+
+.social-icon span {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 
 /* --- Footer --- */
 .footer { background-color: var(--dark-blue); color: var(--text-light); padding: 2rem 0; text-align: center; }
 
-/* --- Responsive --- */
+/* --- Lightbox (REVISI FINAL) --- */
+.lightbox {
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.92);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-container {
+    position: relative;
+    display: flex; /* Menggunakan flex untuk memastikan gambar dan caption bisa diatur */
+    flex-direction: column;
+    align-items: center;
+    width: auto; /* Lebar diatur oleh gambar di dalamnya */
+    
+    /* REVISI: Sudut tumpul dan shadow dipindahkan ke container */
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    overflow: hidden; /* Sembunyikan caption yang keluar dari sudut tumpul */
+
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.lightbox.active .lightbox-container {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.lightbox-content {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+    /* REVISI: border-radius dan box-shadow dihapus dari gambar, dipindah ke container */
+}
+
+/* REVISI UTAMA: Caption menjadi overlay di dalam gambar */
+.lightbox-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    
+    /* Latar belakang gradien untuk keterbacaan */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    
+    text-align: left; /* Teks rata kiri agar lebih rapi */
+    padding: 2rem 1.5rem 1.5rem; /* Padding disesuaikan */
+    color: #fff; /* Warna teks dibuat putih agar kontras */
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    /* Animasi muncul dari bawah */
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+}
+
+/* Munculkan caption bersamaan dengan gambar */
+.lightbox.active .lightbox-caption {
+    transform: translateY(0);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 2vh;
+    right: 3vw;
+    color: #fff;
+    font-size: 45px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+}
+.lightbox-close:hover { color: #bbb; }
+
+.lightbox-prev, .lightbox-next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    transition: 0.3s ease;
+    border-radius: 50%;
+    user-select: none;
+    background-color: rgba(30, 30, 30, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lightbox-prev { left: 3vw; }
+.lightbox-next { right: 3vw; }
+
+.lightbox-prev:hover, .lightbox-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+/* --- Responsive AREA --- */
 @media(max-width: 992px) {
+    .portfolio-item-overlay {
+        transform: translateY(0);
+        opacity: 1;
+        padding: 1.5rem 0.8rem 0.8rem 0.8rem;
+        background: linear-gradient(to top, rgba(10, 37, 64, 0.85), transparent);
+    }
+    .portfolio-item-overlay p {
+        font-size: 0.8rem;
+    }
     .values-grid, .services-grid { grid-template-columns: 1fr; }
     .value-card, .service-card { margin-bottom: 2rem; }
-    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* <-- Aturan ini akan aktif kembali */
+        gap: 1.5rem;
+    }
     .contact-container { grid-template-columns: 1fr; }
-    /* POTONG BLOK KODE INI DARI @media (max-width: 768px) */
 
     /* --- Penyesuaian Responsif untuk Diagram DNA --- */
     .dna-diagram {
@@ -1103,8 +1366,57 @@ body {
         font-size: 0.9rem;
         padding: 0.4rem 0.8rem;
     }
+    
+    .mice-graphic{
+        height: 900px; /* Sesuaikan tinggi grafis MICE */
+    }
+    .event-graphic, .supplier-graphic {
+        height: 800px;
+    }
+    .event-text, .mice-text, .supplier-text{
+        padding: 1rem;
+    }
+
+    /* BUAT KLIEN TAB  */
+    .clients-grid img {
+        filter: grayscale(0%);
+        opacity: 1;
+        height: 60px;
+    }
+    .clients-grid {
+        gap: 2rem; 
+    }
+
+    /* BUAT KONTAK */
+    .contact-new-layout {
+        grid-template-columns: 1fr;
+    }
+    .contact-details {
+        padding-left: 0;
+        border-left: none;
+        margin-top: 3rem;
+        padding-top: 3rem;
+        border-top: 3px solid var(--background-light);
+    }
 }
 @media(max-width: 768px) {
+    /* --- Penyesuaian Ukuran Font Dasar di Mobile --- */
+    html {
+        font-size: 15px; /* Standar browser adalah 16px */
+    }
+    /* --- Penyesuaian Ukuran Font Judul di Mobile --- */
+    .content-section h2 {
+        font-size: 2rem; /* Perkecil ukuran font H2 di mobile */
+        margin-bottom: 2rem; /* Kurangi juga jarak bawahnya */
+    }
+
+    /* Penyesuaian khusus untuk judul di seksi detail agar tidak terlalu besar */
+    .event-text h2,
+    .mice-text h2,
+    .supplier-text h2 {
+        font-size: 2rem;
+    }
+
     /* --- REVISI FINAL NAVBAR RESPONSIVE --- */
 
     .hamburger {
@@ -1124,26 +1436,31 @@ body {
         transform: translateY(-8px) rotate(-45deg);
     }
     
+    
     .nav-menu {
         position: fixed;
         transform: translateX(-100%); 
         visibility: hidden;
-        left: 0;
-        top: 0;
-        width: 80%;
-        max-width: 300px;
-        height: 100vh;
-        border-radius: 20px;
-        
-        /* REVISI: Pastikan ini adalah flex container */
+        left: 2.5vw;
+        top: 6rem;
+
+        height: auto;
+        max-height: 80vh;
+
+        width: 95vw;
+        max-width: 320px;
+
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center; /* Menengahkan item secara horizontal */
-        
+        /* REVISI: Ubah dari 'center' menjadi 'flex-start' */
+        justify-content: flex-start; 
+        align-items: center;
         background-color: var(--text-light);
         transition: transform 0.4s ease-in-out, visibility 0.4s ease-in-out;
-        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        padding: 1.5rem 0;
+        border-radius: 20px;
+        overflow-y: auto;
     }
 
     .nav-menu.active {
@@ -1153,7 +1470,7 @@ body {
 
     .nav-item {
         /* REVISI: Margin disesuaikan agar jarak lebih konsisten */
-        margin: 1rem 0;
+        margin: 0.5rem 0;
         width: 80%; /* Beri lebar agar item tidak terlalu mepet */
         text-align: center;
     }
@@ -1181,7 +1498,6 @@ body {
         color: var(--primary-green);
     }
     
-    /* POTONG BLOK KODE INI DARI @media (max-width: 768px) */
 
     /* --- Penyesuaian Responsif untuk Diagram DNA --- */
     .dna-diagram {
@@ -1221,12 +1537,59 @@ body {
         font-size: 0.9rem;
         padding: 0.4rem 0.8rem;
     }
-
     
+    .hero-content {
+        padding: 0 1.5rem; /* Memberi jarak 1.5rem di kiri dan kanan */
+    }
     .hero-content h1 { font-size: 2.2rem; }
     .about-content { flex-direction: column; text-align: center; }
-    .about-text { text-align: center; }
-    .portfolio-grid { grid-template-columns: 1fr; }
+    .about-text { text-align: justify; padding: 0.5rem 1rem 1rem ;  }
+
+
+    /* BUAT KLIEN DI MOBILE */
+    .clients-grid img {
+        filter: grayscale(0%);
+        opacity: 1;
+        height: 60px;
+    }
+    .clients-grid {
+        gap: 2rem; 
+    }
+
+    /* BUAT LIGHTBOX */
+    .lightbox-content {
+        max-width: 100vw;
+        max-height: 75vh;
+    }
+    .lightbox-caption {
+        font-size: 0.8rem;
+        padding: 1.5rem 1rem 1rem;
+    }
+    .lightbox-close {
+        top: 10px;
+        right: 20px;
+        font-size: 35px;
+        background-color: rgba(0,0,0,0.5);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        line-height: 1;
+    }
+    .lightbox-prev, .lightbox-next {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    .lightbox-prev { left: 10px; }
+    .lightbox-next { right: 10px; }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr); /* Membuat 2 kolom */
+        gap: 1rem; /* Jarak antar gambar sedikit dirapatkan */
+    }
     .portfolio-item-overlay { transform: translateY(0); opacity: 1; padding: 1rem 0.8rem 0.8rem 0.8rem; background: linear-gradient(to top, rgba(10, 37, 64, 0.8), transparent); }
     .portfolio-item-overlay p { font-size: 0.8rem; }
     .dna-content { grid-template-columns: 1fr; }
@@ -1240,7 +1603,15 @@ body {
     .supplier-graphic {
         display: none;
     }
-    /* --- Penyesuaian Responsif untuk MICE Organizer --- */
+
+    /* --- Penyesuaian List Layanan Detail MICE list di Mobile --- */
+    .detail-service-list {
+        display: inline-block; /* Membuat blok <ul> bisa di-tengahkan */
+        text-align: left; /* Teks di dalam list tetap rata kiri */
+        margin-top: 1rem; /* Beri jarak dari paragraf di atasnya */
+    }
+
+    /* --- Penyesuaian Responsif untuk TRAINING Organizer --- */
     .mice-content {
         grid-template-columns: 1fr; /* Ubah grid menjadi 1 kolom */
     }
@@ -1248,9 +1619,80 @@ body {
     .mice-text {
         text-align: left; /* Teks dibuat rata tengah di mobile */
     }
-
-    .mice-list {
-        justify-content: left; /* Posisikan item list di tengah */
+    .mice-text h2 {
+        text-align: left; /* Perkecil ukuran font H2 di mobile */
     }
-    .event-text, .mice-text, .supplier-text { padding: 2rem; }
+
+    .mice-list{
+        justify-content: left;
+        text-align: left;
+    }
+    
+    .supplier-lists {
+        justify-content: left; /* Posisikan item list di tengah */
+        text-align: left;
+    }
+    .event-text, .mice-text, .supplier-text {
+        padding: 1rem; 
+        text-align: justify; /* Rata tengah untuk teks di mobile */
+    }
+}
+
+/* --- Penyesuaian untuk Layar Sangat Kecil (e.g., iPhone 5/6) --- */
+@media (max-width: 360px) {
+    /* --- Perbaikan Menu Hamburger di Layar Sangat Kecil --- */
+    .nav-menu {
+        width: 50vw; /* Perkecil lebar menu */
+        left: 5vw;   /* Posisikan di tengah */
+        top: 5rem;   /* Sedikit turunkan posisi dari atas */
+        max-height: 75vh; /* Beri sedikit lebih banyak ruang vertikal */
+    }
+
+    .nav-item {
+        width: 90%; /* Sesuaikan lebar item di dalamnya */
+    }
+
+    /* Perkecil padding utama container */
+    .container {
+        padding: 0 1rem;
+    }
+
+    /* Perkecil padding seksi */
+    .content-section {
+        padding: 4rem 0;
+    }
+
+    /* Perkecil judul */
+    .content-section h2 {
+        font-size: 2rem;
+    }
+
+    /* --- Perbaikan untuk KAP Career di Layar Sangat Kecil --- */
+    .career-grid {
+        grid-template-columns: 1fr; /* Paksa menjadi 1 kolom */
+    }
+    .job-card {
+        padding: 1.5rem; /* Kurangi padding di dalam kartu agar lebih pas */
+    }
+
+    .contact-new-layout {
+        padding: 1.5rem; /* Kurangi padding dari 3rem menjadi 1.5rem */
+    }
+
+    /* Perkecil grid folder galeri */
+    .portfolio-folders {
+        grid-template-columns: 1fr; /* Paksa menjadi 1 kolom */
+        gap: 1.5rem;
+    }
+    
+    .portfolio-image-item{
+        width: auto;
+    }
+    /* Perkecil padding di dalam kartu folder */
+    .folder-overlay {
+        padding: 1rem;
+    }
+    .folder-overlay h4 {
+        font-size: 1.2rem;
+    }
 }
